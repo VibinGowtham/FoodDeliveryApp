@@ -2,6 +2,7 @@
 using FoodDeliveryApp.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FoodDeliveryApp.Migrations
 {
     [DbContext(typeof(UserDBContext))]
-    partial class UserDBContextModelSnapshot : ModelSnapshot
+    [Migration("20220724045213_initial")]
+    partial class initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,23 +26,29 @@ namespace FoodDeliveryApp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("DeliveryPrice")
-                        .HasColumnType("int");
-
-                    b.Property<string>("OwnerName")
+                    b.Property<string>("AddressLine1")
                         .IsRequired()
                         .HasColumnType("longtext");
+
+                    b.Property<string>("AddressLine2")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("AddressLine3")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("DeliveryPrice")
+                        .HasColumnType("int");
 
                     b.Property<string>("RestaurantName")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("UserId")
+                    b.Property<int>("UserIdRef")
                         .HasColumnType("int");
 
                     b.HasKey("RestaurantId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Restaurants");
                 });
@@ -66,17 +74,6 @@ namespace FoodDeliveryApp.Migrations
                     b.HasKey("UserId");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("FoodDeliveryApp.Models.Restaurant", b =>
-                {
-                    b.HasOne("FoodDeliveryApp.Models.User", "user")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("user");
                 });
 #pragma warning restore 612, 618
         }

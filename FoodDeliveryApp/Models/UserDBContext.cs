@@ -9,5 +9,7 @@ namespace FoodDeliveryApp.Models
 
         }
         public DbSet<User> Users { get; set; }
+
+        public DbSet<Restaurant> Restaurants { get; set; }
     }
 }
