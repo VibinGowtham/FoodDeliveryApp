@@ -17,5 +17,9 @@ namespace FoodDeliveryApp.Repository
         public List<Restaurant> GetRestaurants(int OwnerId);
 
         public Restaurant? FindRestaurant(int OwnerId);
+
+        public FoodItem AddFoodItem(FoodItem foodItem);
+
+        public List<FoodItem> GetAllFoodItemsById(int foodItemId);
     }
 }

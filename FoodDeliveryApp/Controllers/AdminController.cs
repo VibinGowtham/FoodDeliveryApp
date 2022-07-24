@@ -48,7 +48,7 @@ namespace FoodDeliveryApp.Controllers
         [HttpPost("addUser")]
         public async Task<IActionResult> Add([FromBody] User user)
         {
-            if (user.Email == null || user.Password == null )
+            if (user.Email == null || user.Password == null || user.Email == "" || user.Password == "")
             {
                 return BadRequest("User cannot be null/empty");
             }

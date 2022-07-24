@@ -50,5 +50,16 @@ namespace FoodDeliveryApp.Repository
             return _dbContext.Restaurants.FirstOrDefault(restaurant => restaurant.RestaurantId==resId);
         }
 
+        public FoodItem AddFoodItem(FoodItem foodItem)
+        {
+            _dbContext.FoodItems.Add(foodItem);
+            _dbContext.SaveChanges();
+            return foodItem;
+        }
+
+        public List<FoodItem> GetAllFoodItemsById(int foodItemId)
+        {
+            return _dbContext.FoodItems.ToList();
+        }
     }
 }

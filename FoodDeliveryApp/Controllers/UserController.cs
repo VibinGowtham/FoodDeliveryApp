@@ -6,12 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace FoodDeliveryApp.Controllers
 {
     [Route("user")]
-    public class LoginController : ControllerBase
+    public class UserController : ControllerBase
     {
        private readonly UserService _userService;
 
         private readonly RestaurantService _restaurantService;
-        public LoginController(UserService userService, RestaurantService restaurantService)
+        public UserController(UserService userService, RestaurantService restaurantService)
         {
             _userService = userService;
             _restaurantService = restaurantService;
@@ -81,5 +81,11 @@ namespace FoodDeliveryApp.Controllers
             return _restaurantService.FindRestaurant(restaurantId);
         }
 
+
+        [HttpPost("addItem")]
+        public FoodItem? AddItem([FromBody]FoodItem foodItem)
+        {
+            return _restaurantService.AddFoodItem(foodItem);
+        }
     }
 }

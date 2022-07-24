@@ -31,5 +31,15 @@ namespace FoodDeliveryApp.Services
             return _foodRepository.FindRestaurant(id);
         }
 
+        public FoodItem? AddFoodItem(FoodItem foodItem)
+        {
+            return _foodRepository.AddFoodItem(foodItem);
+        }
+
+        public List<FoodItem> GetFoodItemsById(int itemId)
+        {
+            return _foodRepository.GetAllFoodItemsById(itemId);
+        }
+        
     }
 }
