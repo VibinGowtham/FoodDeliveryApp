@@ -32,19 +32,22 @@ namespace FoodDeliveryApp.Controllers
             User? found = _userService.SearchUser(user.Email);
             if (found != null)
             {
-              var jwt=  _userService.CreateToken(found);
-                return Ok(jwt);
+                bool verified = BCrypt.Net.BCrypt.Verify(user.Password, found.Password);
+                if (verified)
+                {
+                    var jwt = _userService.CreateToken(found);
+                    return Ok(jwt);
+                }
+                
             }
-            else
-            {
+          
                 return BadRequest("User Not Found");
-            }
+            
 
         }
 
-        [Authorize(Roles = "Owner")]
 
-        [HttpGet("getRestaurants")]
+        [HttpGet("getRestaurants"), Authorize(Roles = "Owner")]
         public List<Restaurant> getRestaurantsByOwner()
         {
             var email = _userService.getEmailFromToken(HttpContext);
@@ -57,9 +60,8 @@ namespace FoodDeliveryApp.Controllers
             return restaurants;
         }
 
-        [Authorize(Roles ="Owner")]
 
-        [HttpPost("updateDeliveryPrice")]
+        [HttpPost("updateDeliveryPrice"), Authorize(Roles = "Owner")]
         public Restaurant? updateDeliveryPrice([FromBody] Restaurant restaurant)
         {
             var newPrice = restaurant.DeliveryPrice; 
@@ -73,28 +75,27 @@ namespace FoodDeliveryApp.Controllers
 
         }
 
-        [Authorize(Roles = "Owner")]
 
-        [HttpPost("getRestaurant/{restaurantId}")]
+        [HttpGet("getRestaurant/{restaurantId}"), Authorize(Roles = "Owner")]
         public Restaurant? getRestaurant(int restaurantId)
         {
             return _restaurantService.FindRestaurant(restaurantId);
         }
 
 
-        [HttpPost("addItem")]
+        [HttpPost("addItem"),Authorize(Roles ="Owner")]
         public FoodItem? AddItem([FromBody]FoodItem foodItem)
         {
             return _restaurantService.AddFoodItem(foodItem);
         }
 
-        [HttpGet("getAllItems/{id}")]
-        public List<FoodItem> getAllItems(int id)
+        [HttpGet("getAllItems/{restaurantId}"), Authorize(Roles = "Owner")]
+        public List<FoodItem> getAllItems(int restaurantId)
         {
-            return _restaurantService.GetFoodItemsById(id);
+            return _restaurantService.GetFoodItemsById(restaurantId);
         }
 
-        [HttpPost("updateItem")]
+        [HttpPost("updateItem"), Authorize(Roles = "Owner")]
         public FoodItem? UpdateAvailabity([FromBody]FoodItem foodItem)
         {
             FoodItem instance = _restaurantService.GetItem(foodItem);
@@ -102,7 +103,7 @@ namespace FoodDeliveryApp.Controllers
             return instance;
         }
 
-        [HttpPost("deleteItem")]
+        [HttpPost("deleteItem"), Authorize(Roles = "Owner")]
         public String deleteItem([FromBody] FoodItem foodItem)
         {
             FoodItem instance = _restaurantService.GetItem(foodItem);

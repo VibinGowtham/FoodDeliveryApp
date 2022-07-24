@@ -83,8 +83,7 @@ namespace FoodDeliveryApp.Migrations
                         .HasColumnType("varchar(50)");
 
                     b.Property<string>("Password")
-                        .HasMaxLength(30)
-                        .HasColumnType("varchar(30)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Role")
                         .HasMaxLength(20)

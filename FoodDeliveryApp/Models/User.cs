@@ -10,7 +10,6 @@ namespace FoodDeliveryApp.Models
         [StringLength(50),EmailAddress]
         public string? Email { get; set; }
 
-        [StringLength(30)]
         public string? Password { get; set; }
 
         [StringLength(20)]

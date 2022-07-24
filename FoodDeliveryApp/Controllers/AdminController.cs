@@ -60,6 +60,8 @@ namespace FoodDeliveryApp.Controllers
             }
             else
             {
+                String passowrdHash = BCrypt.Net.BCrypt.HashPassword(user.Password);
+                user.Password = passowrdHash;
                 _userService.AddUser(user);
                 return Ok(user);
             }

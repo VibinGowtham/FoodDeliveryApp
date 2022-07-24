@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FoodDeliveryApp.Migrations
 {
     [DbContext(typeof(UserDBContext))]
-    [Migration("20220724095843_third")]
-    partial class third
+    [Migration("20220724185703_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -19,6 +19,33 @@ namespace FoodDeliveryApp.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "6.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
+
+            modelBuilder.Entity("FoodDeliveryApp.Models.FoodItem", b =>
+                {
+                    b.Property<int>("ItemId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Availability")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ItemName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("Price")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RestaurantId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ItemId");
+
+                    b.HasIndex("RestaurantId");
+
+                    b.ToTable("FoodItems");
+                });
 
             modelBuilder.Entity("FoodDeliveryApp.Models.Restaurant", b =>
                 {
@@ -58,8 +85,7 @@ namespace FoodDeliveryApp.Migrations
                         .HasColumnType("varchar(50)");
 
                     b.Property<string>("Password")
-                        .HasMaxLength(30)
-                        .HasColumnType("varchar(30)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Role")
                         .HasMaxLength(20)
@@ -68,6 +94,17 @@ namespace FoodDeliveryApp.Migrations
                     b.HasKey("UserId");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("FoodDeliveryApp.Models.FoodItem", b =>
+                {
+                    b.HasOne("FoodDeliveryApp.Models.Restaurant", "restaurant")
+                        .WithMany()
+                        .HasForeignKey("RestaurantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("restaurant");
                 });
 
             modelBuilder.Entity("FoodDeliveryApp.Models.Restaurant", b =>
