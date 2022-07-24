@@ -20,6 +20,12 @@ namespace FoodDeliveryApp.Repository
 
         public FoodItem AddFoodItem(FoodItem foodItem);
 
-        public List<FoodItem> GetAllFoodItemsById(int foodItemId);
+        public List<FoodItem> GetAllFoodItemsById(int restaurantId);
+
+        public FoodItem GetFoodItem(FoodItem foodItem);
+
+        public FoodItem? UpdateAvailablity(FoodItem foodItem);
+
+        public Boolean DeleteItem(FoodItem foodItem);
     }
 }

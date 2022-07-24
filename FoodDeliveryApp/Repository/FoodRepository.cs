@@ -53,13 +53,61 @@ namespace FoodDeliveryApp.Repository
         public FoodItem AddFoodItem(FoodItem foodItem)
         {
             _dbContext.FoodItems.Add(foodItem);
-            _dbContext.SaveChanges();
+            try
+            {
+                _dbContext.SaveChanges();
+            }
+            catch (Exception)
+            {
+                return new FoodItem();
+            }
             return foodItem;
         }
 
-        public List<FoodItem> GetAllFoodItemsById(int foodItemId)
+        public List<FoodItem> GetAllFoodItemsById(int restaurantId)
         {
-            return _dbContext.FoodItems.ToList();
+            return (List<FoodItem>)_dbContext.FoodItems.Where(foodItem=>foodItem.RestaurantId==restaurantId).ToList();
+        }
+
+        public FoodItem? UpdateAvailablity(FoodItem foodItem)
+        {
+            _dbContext.FoodItems.Update(foodItem);
+            _dbContext.SaveChanges();
+
+            try
+            {
+            }
+            catch (Exception)
+            {
+                return new FoodItem();
+            }
+            
+            return foodItem;
+        }
+
+        public Boolean DeleteItem(FoodItem foodItem)
+        {
+            try
+            {
+                _dbContext.FoodItems.Remove(foodItem);
+                _dbContext.SaveChanges();
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public FoodItem GetFoodItem(FoodItem foodItem)
+        {
+            FoodItem output = new FoodItem();
+            List<FoodItem> foodItems=_dbContext.FoodItems.Where(item => item.RestaurantId == foodItem.RestaurantId).ToList();
+            foodItems.ForEach(item =>
+            {
+                if (item.ItemId == foodItem.ItemId) output= item;
+            });
+            return output;
         }
     }
 }

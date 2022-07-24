@@ -87,5 +87,28 @@ namespace FoodDeliveryApp.Controllers
         {
             return _restaurantService.AddFoodItem(foodItem);
         }
+
+        [HttpGet("getAllItems/{id}")]
+        public List<FoodItem> getAllItems(int id)
+        {
+            return _restaurantService.GetFoodItemsById(id);
+        }
+
+        [HttpPost("updateItem")]
+        public FoodItem? UpdateAvailabity([FromBody]FoodItem foodItem)
+        {
+            FoodItem instance = _restaurantService.GetItem(foodItem);
+            _restaurantService.UpdateItem(instance);
+            return instance;
+        }
+
+        [HttpPost("deleteItem")]
+        public String deleteItem([FromBody] FoodItem foodItem)
+        {
+            FoodItem instance = _restaurantService.GetItem(foodItem);
+            if (_restaurantService.DeleteItem(instance)) return "Item Sucecessfully deleted";
+            else return "Item Does'nt Exists";
+        }
+
     }
 }

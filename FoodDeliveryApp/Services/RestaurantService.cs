@@ -36,10 +36,31 @@ namespace FoodDeliveryApp.Services
             return _foodRepository.AddFoodItem(foodItem);
         }
 
-        public List<FoodItem> GetFoodItemsById(int itemId)
+        public List<FoodItem> GetFoodItemsById(int restaurantId)
         {
-            return _foodRepository.GetAllFoodItemsById(itemId);
+            return _foodRepository.GetAllFoodItemsById(restaurantId);
         }
-        
+
+        public FoodItem GetItem(FoodItem foodItem)
+        {
+            return _foodRepository.GetFoodItem(foodItem);  
+        }
+        public FoodItem? UpdateItem(FoodItem foodItem)
+        {
+            if (foodItem.Availability.ToLower() == "yes")
+            {
+                foodItem.Availability = "No";
+            }
+            else foodItem.Availability = "Yes";
+            return _foodRepository.UpdateAvailablity(foodItem);
+        }
+
+        public Boolean DeleteItem(FoodItem foodItem)
+        {
+            return _foodRepository.DeleteItem(foodItem);
+        }
+
+
+
     }
 }
