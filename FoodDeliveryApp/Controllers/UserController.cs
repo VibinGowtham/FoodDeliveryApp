@@ -87,6 +87,7 @@ namespace FoodDeliveryApp.Controllers
         [HttpPost("addItem"),Authorize(Roles ="Owner")]
         public FoodItem? AddItem([FromBody]FoodItem foodItem)
         {
+            Send.Producer("Added Food Item");
             return _restaurantService.AddFoodItem(foodItem);
         }
 
