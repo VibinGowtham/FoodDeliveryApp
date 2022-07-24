@@ -70,8 +70,9 @@ namespace FoodDeliveryApp.Controllers
             {
                 return new Restaurant();
             }
-            restaurant.DeliveryPrice = newPrice;
-            return restaurant;
+            found.DeliveryPrice = newPrice;
+            _restaurantService.UpdatePrice(found);
+            return found;
 
         }
 
